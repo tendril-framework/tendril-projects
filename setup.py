@@ -29,14 +29,9 @@ def read(fname):
 
 
 core_dependencies = [
+    'six',
     'tendril-utils-core',
-    'tendril-utils-types',
-    'tendril-config',
     'tendril-schema',
-    'tendril-prototype-base',
-    'tendril-costing',
-    'tendril-pricing',
-    'tendril-conventions-status',
 ]
 
 install_requires = core_dependencies + ['wheel']
