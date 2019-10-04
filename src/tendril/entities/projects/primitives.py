@@ -19,7 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Primitives related to Project Configuration elements
+Primitives related to Project Configuration Elements
 ----------------------------------------------------
 """
 
