@@ -12,7 +12,7 @@
 .. image:: https://img.shields.io/coveralls/github/tendril-framework/tendril-projects.svg?logo=coveralls
     :target: https://coveralls.io/github/tendril-framework/tendril-projects
 
-.. image:: https://img.shields.io/codacy/grade/b337ccc3e7e24550a8ea0087e4eb3fad?logo=codacy
+.. image:: https://img.shields.io/codacy/grade/509f4d508323458b95060f611fb2fa51?logo=codacy
     :target: https://www.codacy.com/app/chintal/tendril-projects
 
 .. image:: https://img.shields.io/requires/github/tendril-framework/tendril-projects.svg
