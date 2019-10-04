@@ -19,8 +19,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Project Configuration Schema
-----------------------------
+Project Configuration Definition Primitives
+-------------------------------------------
 """
 
 

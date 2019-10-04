@@ -19,8 +19,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Project Configuration Primitives
---------------------------------
+Primitives related to Project Configuration elements
+----------------------------------------------------
 """
 
 from tendril.schema.base import NakedSchemaObject

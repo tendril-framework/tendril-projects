@@ -1,5 +1,6 @@
 
-.. automodule:: tendril.libraries.products
+
+.. automodule:: tendril.entities.projects.configmatrices
     :members:
     :undoc-members:
     :show-inheritance:
