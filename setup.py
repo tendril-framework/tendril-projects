@@ -32,6 +32,7 @@ core_dependencies = [
     'six',
     'tendril-utils-core',
     'tendril-schema',
+    'tendril-validation-common',
 ]
 
 install_requires = core_dependencies + ['wheel']
