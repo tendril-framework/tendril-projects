@@ -1,6 +1,6 @@
 
 
-.. automodule:: tendril.schema.projectconfig
+.. automodule:: tendril.schema.projects
     :members:
     :undoc-members:
     :show-inheritance:

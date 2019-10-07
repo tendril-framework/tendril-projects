@@ -253,4 +253,4 @@ class ProjectConfigLegacyMixin(object):
         warnings.warn("Deprecated access of status_config()"
                       "Use configurations.get().status instead",
                       DeprecationWarning)
-        raise NotImplementedError
+        return self.configurations.get(configname).status

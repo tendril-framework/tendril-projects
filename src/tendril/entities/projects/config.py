@@ -27,19 +27,20 @@ from __future__ import print_function
 
 import os
 from decimal import Decimal
+
 from tendril.schema.base import SchemaControlledYamlFile
 
-from tendril.entities.projects.primitives import GroupDefinitionList
-from tendril.entities.projects.primitives import MotifDefinitionList
-from tendril.entities.projects.primitives import SJDefinitionList
-from tendril.entities.projects.primitives import GeneratorDefinitionList
-from tendril.entities.projects.primitives import TestProtocolDefinition
+from .primitives import GroupDefinitionList
+from .primitives import MotifDefinitionList
+from .primitives import SJDefinitionList
+from .primitives import GeneratorDefinitionList
+from .primitives import TestProtocolDefinition
 
-from tendril.entities.projects.configurations import ConfigurationDefinitionList
-from tendril.entities.projects.configsections import ConfigSectionDefinitionList
-from tendril.entities.projects.configmatrices import ConfigMatrixDefinitionList
+from .configurations import ConfigurationDefinitionList
+from .configsections import ConfigSectionDefinitionList
+from .configmatrices import ConfigMatrixDefinitionList
 
-from tendril.entities.projects.legacy import ProjectConfigLegacyMixin
+from .legacy import ProjectConfigLegacyMixin
 
 from tendril.utils import log
 logger = log.get_logger(__name__, log.DEFAULT)
@@ -70,9 +71,18 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
         if not os.path.splitext(value)[1]:
             self._projectfolder = value
         else:
-            for _ in self.configs_location:
-                value = os.path.split(value)[0]
+            for exp_part in self.configs_location:
+                value, part = os.path.split(value)
+                if part != exp_part:
+                    value = os.path.join(value, part)
             self._projectfolder = value
+
+    @property
+    def basefolder(self):
+        f = os.path.join(*([self.projectfolder] + self.configs_location[:-1]))
+        if os.path.exists(f):
+            return f
+        return self.projectfolder
 
     # @property
     # def docfolder(self):
@@ -84,14 +94,14 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
 
     @property
     def _cfpath(self):
-        return os.path.join(self._projectfolder, *self.configs_location)
+        return os.path.join(self.basefolder, self.configs_location[-1])
 
     def elements(self):
         e = super(ProjectConfig, self).elements()
         e.update({
             'grouplist': self._p('grouplist', required=False,
                                  parser=GroupDefinitionList,
-                                 parser_args={'basedir': self.projectfolder},
+                                 parser_args={'basedir': self.basefolder},
                                  default=[{'name': 'default',
                                            'desc': 'Unclassified'}]),
             'motiflist': self._p('motiflist', required=False, default={},
@@ -113,7 +123,8 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
                                       parser=ConfigMatrixDefinitionList),
             '_maintainer':  self._p('maintainer', required=False, default=''),
             '_description': self._p('desc', required=False, default=''),
-            'status':       self._p('status', required=False, default=''),
+            # 'status':       self._p('status', required=False, default='',
+            #                         parser=Status),
         })
         return e
 
@@ -137,15 +148,16 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
         return self._configurations
 
     @property
+    def status(self):
+        return None
+
+    @property
+    def status_forced(self):
+        return False
+
+    @property
     def rawconfig(self):
         return self._raw_content
 
     def __repr__(self):
-        return "<ProjectConfig {0}>".format(self.ident)
-
-
-def load(manager):
-    logger.debug("Loading {0}".format(__name__))
-    manager.load_schema('ProjectConfig', ProjectConfig,
-                        doc="Base Schema for Tendril "
-                            "Project Configuration Files")
+        return "<{0} {1}>".format(self.__class__.__name__, self.ident)

@@ -7,6 +7,7 @@ Project Configuration Primitives
 
 .. toctree::
 
+    tendril.entities.projects.config
     tendril.entities.projects.primitives
     tendril.entities.projects.configmatrices
     tendril.entities.projects.configsections
@@ -26,5 +27,5 @@ Provided Schema Definitions
 
 .. toctree::
 
-   tendril.schema.projectconfig
+   tendril.schema.projects
 

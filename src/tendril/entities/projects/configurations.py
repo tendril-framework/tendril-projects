@@ -25,6 +25,8 @@ Project Configuration Definition
 
 
 from six import iteritems
+from tendril.conventions.status import Status
+
 from tendril.schema.base import NakedSchemaObject
 from tendril.schema.helpers import SchemaObjectList
 from tendril.schema.helpers import SchemaObjectMapping
@@ -49,7 +51,8 @@ class ConfigurationDefinition(NakedSchemaObject):
             'config':      self._p('config',     required=False, default={},
                                    parser=SchemaObjectMapping),
             'testvars':    self._p('testvars',   required=False, default={}),
-            'status':      self._p('status',     required=False, default=None),
+            'status':      self._p('status',     required=False, default=None,
+                                   parser=Status),
             'maintainer':  self._p('maintainer', required=False, default=''),
             'description': self._p('desc',       required=False, default=''),
         })
@@ -73,17 +76,25 @@ class ConfigurationDefinition(NakedSchemaObject):
                 configsections.get_modifier(section, sconfig).groups
             )
 
+    def _apply_status(self, config):
+        if not self.status or config.status_forced:
+            self.status = config.status
+
     def apply_defaults(self, config):
         # TODO Motif defaults to be handled
-        if not self.status and hasattr(config, 'status'):
-            self.status = config.status
+
         if not self.maintainer and hasattr(config, 'maintainer'):
             self.maintainer = config.maintainer()
+
         if not self.description and hasattr(config, 'description'):
             self.description = config.description()
 
+        if hasattr(config, 'status'):
+            self._apply_status(config)
+
         if hasattr(config, 'sjlist'):
             self._apply_default_sjlist(config.sjlist)
+
         if hasattr(config, 'configsections'):
             self._apply_configsections(config.configsections)
 
