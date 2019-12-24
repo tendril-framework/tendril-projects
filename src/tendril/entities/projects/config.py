@@ -63,6 +63,14 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
         super(ProjectConfig, self).__init__(self._cfpath, *args, **kwargs)
 
     @property
+    def ident(self):
+        return self.projectname or super(ProjectConfig, self).ident
+
+    @property
+    def projectname(self):
+        return None
+
+    @property
     def projectfolder(self):
         return self._projectfolder
 
