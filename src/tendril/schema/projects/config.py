@@ -60,6 +60,7 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
     def __init__(self, projectfolder, *args, **kwargs):
         self.projectfolder = projectfolder
         self._configurations = None
+        kwargs.setdefault('strict_schema', True)
         super(ProjectConfig, self).__init__(self._cfpath, *args, **kwargs)
 
     @property

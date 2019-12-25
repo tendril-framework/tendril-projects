@@ -11,11 +11,12 @@ class ProjectBase(ValidatableBase):
         super(ProjectBase, self).__init__(*args, **kwargs)
         self._project_folder = projectfolder
         self._config_obj = None
+        _ = self.config
 
     @property
     def config(self):
         if not self._config_obj:
-            self._config_obj = ProjectConfig(self._project_folder)
+            self._config_obj = self._config_class(self._project_folder)
             self._config_obj.validate()
             self._validation_errors.add(self._config_obj.validation_errors)
         return self._config_obj
