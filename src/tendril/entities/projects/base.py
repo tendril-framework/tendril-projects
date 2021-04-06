@@ -27,6 +27,10 @@ from tendril.validation.base import ValidatableBase
 from tendril.schema import ProjectConfig
 
 
+class NoProjectException(Exception):
+    pass
+
+
 class ProjectBase(ValidatableBase):
     _config_class = ProjectConfig
 
@@ -39,7 +43,10 @@ class ProjectBase(ValidatableBase):
     @property
     def config(self):
         if not self._config_obj:
-            self._config_obj = self._config_class(self._project_folder)
+            try:
+                self._config_obj = self._config_class(self._project_folder)
+            except self._config_class.FileNotFoundExceptionType:
+                raise NoProjectException()
             self._config_obj.validate()
             self._validation_errors.add(self._config_obj.validation_errors)
         return self._config_obj

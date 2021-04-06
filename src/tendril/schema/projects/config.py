@@ -46,7 +46,7 @@ from tendril.utils import log
 logger = log.get_logger(__name__, log.DEFAULT)
 
 
-class NoProjectError(Exception):
+class NoProjectConfigError(Exception):
     pass
 
 
@@ -54,7 +54,7 @@ class ProjectConfig(SchemaControlledYamlFile, ProjectConfigLegacyMixin):
     supports_schema_name = 'ProjectConfig'
     supports_schema_version_max = Decimal('1.0')
     supports_schema_version_min = Decimal('1.0')
-    FileNotFoundExceptionType = NoProjectError
+    FileNotFoundExceptionType = NoProjectConfigError
     configs_location = ['configs.yaml']
 
     def __init__(self, projectfolder, *args, **kwargs):
